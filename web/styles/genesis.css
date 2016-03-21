@@ -1,0 +1,53 @@
+.w3-table tr td {
+	vertical-align: middle !important;
+}
+
+.fifth,.fourfifth {
+	float: left;
+	width: 100%;
+}
+
+.fifth,.fourfifth{
+	width: 99.99999%;
+}
+
+@media only screen and (min-width: 601px) {
+	.fifth {
+		width: 19.99999%;
+	}
+	.fourfifth {
+		width: 79.99999%;
+	}
+}
+
+.topnav a {
+  padding:10px 15px 10px 15px !important;
+}
+
+.topnavsub a {
+  padding:4px 6px 4px 6px !important;
+}
+
+.topnav a, .topnavsub a {
+  border-bottom:none !important;
+  display:inline-block;
+}
+
+.topnav a:hover, .topnavsub a:hover {
+  border-bottom:none !important;
+	text-decoration: none !important;
+}
+
+.middle {
+  position: relative;
+  top: 49%;
+  -webkit-transform: translateY(-49%);
+  -ms-transform: translateY(-49%);
+  transform: translateY(-49%);
+}
+
+.top {
+	position: fixed;
+	width: 100%;
+	z-index: 1;
+}
