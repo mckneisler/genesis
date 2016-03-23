@@ -5,7 +5,7 @@ This project is a baseline template application using object-oriented PHP and My
 It will contain the following components:
 
 	▪	Responsive design and menu system (implemented)
-	▪	Object-oriented (not yet implemented)
+	▪	Object-oriented (implemented)
 	▪	Fully configurable languages, fonts, color themes, shading and rounding (implemented)
 	▪	Role-based security model with Facebook and Google+ login capabilities (not fully implemented)
 	▪	HTML-based notification system (not fully implemented)

@@ -5,8 +5,7 @@ require_once(dirname(__FILE__) . '/includes/config.php');
 
 unset($_SESSION['userInfo']);
 
-// get the menu appropriate for this user
-$smarty->assign('bodyclass', 'nav-rg');
+$oError = new genesis\error;
 
 if (isset($_POST["register"])) {
 	$isError = false;
@@ -105,7 +104,7 @@ if (isset($_POST["register"])) {
 	}
 
 	if ($isError) {
-		setGeneralError($language['message']['errorsFound']);
+		$oError->setGeneralError($language['message']['errorsFound']);
  	} else {
 		$new['emailTxt'] = mysql_real_escape_string($_POST['emailTxt']);
 		$new['passwordTxt'] = md5(mysql_real_escape_string($_POST['passwordTxt']));

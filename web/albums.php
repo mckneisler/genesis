@@ -2,7 +2,8 @@
 $menuSelected = "music";
 $submenuSelected = "albums";
 require_once(dirname(__FILE__) . '/includes/config.php');
-//require_once(dirname(__FILE__) . '/includes/authUsersOnly.php');
+
+$oDB = new genesis\db;
 
 $sql  = "SELECT DISTINCT ar.artistId, ar.nameTxt AS artistNameTxt ";
 $sql .= "  FROM artists ar ";
@@ -10,11 +11,8 @@ $sql .= "  LEFT JOIN albums al ";
 $sql .= "         ON al.artistId = ar.artistId ";
 $sql .= " WHERE 1 = 1 ";
 $sql .= " ORDER BY ar.nameTxt ";
-$result = myQuery($sql);
+$artists = $oDB->get_id_array($sql);
 $artists[0] = "<All Artists>";
-while (List($artistId, $artistNameTxt) = mysql_fetch_row($result)) {
-    $artists[$artistId] = $artistNameTxt;
-}
 if ($_GET['artistId']) {
     $artistId = $_GET['artistId'];
 } else {
@@ -46,10 +44,7 @@ if ($_SESSION['favsOnly']) {
     $sql .= "  AND ufa.userId IS NOT NULL ";
 }
 $sql .= " ORDER BY ar.nameTxt, al.nameTxt ";
-$result = myQuery($sql);
-while ($album = mysql_fetch_assoc($result)) {
-	$albums[] = $album;
-}
+$albums = $oDB->get_array($sql);
 
 $smarty->assign('artistId', $artistId);
 $smarty->assign('artists', $artists);

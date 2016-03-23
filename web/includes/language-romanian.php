@@ -84,6 +84,7 @@ $language['phrase']['emailSubject'] = 'Întrebări de la Site-ul';
 $language['phrase']['existingUser'] = 'Utilizator existent?';
 $language['phrase']['greaterThan8Char'] = ' fie mai mare decât 8 caractere';
 $language['phrase']['lessThan20Char'] = ' fi mai mică de 20 de caractere';
+$language['phrase']['loggedIn'] = 'logat';
 $language['phrase']['login'] = 'Login la contul dvs';
 $language['phrase']['newUser'] = 'Utilizator nou?';
 $language['phrase']['passwordRules'] = '(8-20 caractere, 1 număr, 1 majuscule, 1 minuscule and 1 speciale)';
@@ -95,4 +96,5 @@ $language['phrase']['siteDesc'] = 'Cu ' . $appName . ' puteţi căuta artişti m
 $language['phrase']['signUp'] = 'Înscrieţi-vă pentru un cont nou';
 $language['phrase']['swipe'] = 'DEPLASAȚI DEGETUL';
 $language['phrase']['webmaster'] = $appName . ' Webmaster';
+$language['phrase']['toSelectFavs'] = 'Pentru a selecta preferate, mai întâi trebuie să fie';
 ?>

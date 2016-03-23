@@ -1,6 +1,4 @@
 <?php
-define('TEST_EMAIL', 'something@email.com');
-define('DEV_IP', '99.99.99.99');
 /**
  * setEnv.php
  * December 2, 2005
@@ -27,12 +25,14 @@ if (count($dirs) > 2) {
 
 $appRoot = $_SERVER['DOCUMENT_ROOT'] . '/' . $appDir;
 $incPath = $appRoot . 'includes/';
+//error_log('$incPath = "' . $incPath . '"');
 $urlRoot = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $appDir;
 $imgPath = $urlRoot . 'images/';
 
 //===========================================================
 // Smarty Config
 //
+//define('SMARTY_SPL_AUTOLOAD',1);
 require_once($appRoot . 'smarty/libs/Smarty.class.php');
 $smarty = new Smarty;
 $smarty->template_dir = $appRoot . 'templates';
@@ -41,15 +41,7 @@ $smarty->cache_dir = $appRoot . 'smarty/cache';
 // Change comment on these when finished developing to improve performance
 $smarty->force_compile = true;
 
-//===========================================================
-// MySQL Setup
-//
-define('DB_NAME', 'dbname');
-define('DB_HOST', 'localhost');
-define('DB_USER', 'dbuser');
-define('DB_PASS', 'dbpassword');
-
-define('FROM_EMAIL', 'recadmin@chickenmadness.ro');
+require_once('customConfig.php');
 
 $connlink = mysql_connect(DB_HOST,DB_USER,DB_PASS)
 	or die('1 CONNECT ERR');
@@ -62,8 +54,6 @@ $dbselect = mysql_select_db(DB_NAME,$connlink)
 //
 define('ERROR_FILE', $appRoot . 'logs/error.log');
 
-$adminEmail = 'something@email.com';
-$appName = 'Recordly';
 //unset($_SESSION['language']);
 if (!$_SESSION['language']['name']) {
 	$_SESSION['language']['name'] = "";
@@ -71,16 +61,18 @@ if (!$_SESSION['language']['name']) {
 }
 
 //===========================================================
-// Fonts
-//    English, Romanian
-$custom['language'] = 'english';
-
-//===========================================================
 // General Initialization
 //
-require_once $incPath . 'log.inc';
-require_once $incPath . 'notify.inc';
-require_once $incPath . 'error.inc';
+
+set_include_path($incPath);
+spl_autoload_register(function ($class) {
+	$path = explode(":", ini_get('include_path'));
+	$parts = explode('\\', $class);
+	if (file_exists ($path[0] . 'class.' . end($parts) . '.php')) {
+		require_once $incPath . 'class.' . end($parts) . '.php';
+	}
+});
+
 require_once $incPath . 'functions.inc';
 require_once $incPath . 'language-english.php';
 require_once $incPath . 'language-' . $custom['language'] . '.php';
@@ -97,29 +89,7 @@ if ($_SESSION['language']['name'] == $custom['language'] && $_SESSION['language'
 }
 */
 
-set_error_handler("errorHandler", ini_get('error_reporting'));
-
-$custom['round'] = false;
-
-//===========================================================
-// Fonts
-//    Arial, Century Gothic, Comic Sans, Copperplate,
-//    Georgia, Impact, Lucida, Palantino, Tahoma, Times,
-//    Verdana
-$custom['font'] = "copperplate";
-
-//===========================================================
-// Themes
-//    Red, Pink, Purple, Deep Purple, Indigo, Blue, Light Blue,
-//    Cyan, Teal, Green, Light Green, Lime, Khaki,
-//    Yellow, Amber, Orange, Deep Orange, Blue Grey, Brown,
-//    Grey, Dark Grey, Black
-$custom['theme'] = "green";
-
-//===========================================================
-// Shadows
-//    None, Small, Large
-$custom['shadow'] = "none";
+set_error_handler("\\genesis\\error::errorHandler", ini_get('error_reporting'));
 
 //===========================================================
 // Customization

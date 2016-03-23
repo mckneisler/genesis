@@ -2,7 +2,8 @@
 $menuSelected = "music";
 $submenuSelected = "artists";
 require_once(dirname(__FILE__) . '/includes/config.php');
-//require_once(dirname(__FILE__) . '/includes/authUsersOnly.php');
+
+$oDB = new genesis\db;
 
 $sql  = "SELECT ar.artistId, ar.nameTxt ";
 if ($_SESSION['isLoggedIn']) {
@@ -23,10 +24,8 @@ if ($_SESSION['favsOnly']) {
     $sql .= "  AND ufa.userId IS NOT NULL ";
 }
 $sql .= " ORDER BY ar.nameTxt ";
-$result = myQuery($sql);
-while ($artist = mysql_fetch_assoc($result)) {
-	$artists[] = $artist;
-}
+$artists = $oDB->get_array($sql);
+
 $smarty->assign('artists', $artists);
 $smarty->assign('userId', $_SESSION['userInfo']['userId']);
 $smarty->assign('isLoggedIn', $_SESSION['isLoggedIn']);

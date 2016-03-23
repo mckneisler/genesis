@@ -5,9 +5,11 @@ require_once(dirname(__FILE__) . '/includes/config.php');
 
 unset($_SESSION['userInfo']);
 
+$oError = new genesis\error;
+
 if (isset($_POST["login"])) {
   // unset old errors
-  unsetErrors();
+  $oError->unsetErrors();
   $isError = false;
 	$setFocusId = "";
 
@@ -16,7 +18,8 @@ if (isset($_POST["login"])) {
     $sql  = "SELECT userId ";
     $sql .= "  FROM users usr ";
     $sql .= " WHERE emailTxt = '" . $_SESSION['return']['emailTxt'] . "'";
-    $result = myQuery($sql);
+		$oDB = new genesis\db;
+    $result = $oDB->query($sql);
     if (!mysql_num_rows($result)) {
       $_SESSION['errors']['emailTxt'] = $language['message']['emailNotReg'];
       $isError = true;
@@ -40,7 +43,7 @@ if (isset($_POST["login"])) {
   }
 
   if ($isError) {
-    setGeneralError($language['message']['errorsFound']);
+    $oError->setGeneralError($language['message']['errorsFound']);
   } else {
     $emailTxt = $_SESSION['return']['emailTxt'];
     $passwordTxt = $_SESSION['return']['passwordTxt'];
@@ -50,7 +53,7 @@ if (isset($_POST["login"])) {
     if($loginSuccess) {
       redirect($urlRoot . 'artists.php');
     } else {
-      setGeneralError($language['message']['errorsFound']);
+      $oError->setGeneralError($language['message']['errorsFound']);
       $_SESSION['errors']['passwordTxt'] = $language['message']['incorrectPassword'];
       $setFocusId = "passwordTxt";
     }

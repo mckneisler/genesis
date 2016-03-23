@@ -25,6 +25,7 @@
  * @return none
  */
 function smarty_function_unset_errors($params) {
-	unsetErrors();
+	$oError = new genesis\error;
+	$oError->unsetErrors();
 	return;
 }

@@ -1,32 +1,5 @@
 <?php
 /**
- * Generates the navigation menu appropriate for the currently logged in user
- * and the path of the current page
- *
- * @return array
- */
-function getNavigationMenu() {
-/*
-The array defined below ($menu) holds all the information for
-the navigation tabs that appear in the GMS application.
-
-To add a tab, just add an element to the array. Each tab has the
-following properties defined in this array:
-
-    title:  The text that appears on the tab itself.
-            This text is the clickable link.
-
-    url:    The target of the link; what the tab links to.
-
-*/
-
-	ksort($navMenu);
-	return $navMenu;
-
-}
-
-
-/**
  * Basic debugging function. Displays passed var. If no value is specified for a
  * second argument, the program exits.
  *
@@ -92,85 +65,6 @@ function dv($data) {
 function generatePassword($length=8) {
 	return substr(md5(rand(1, 1000000)), 0, $length);
 }
-
-/**
- * Performs an insert into the specified table using the fields and values in the
- * input array and returns the inserted id if the table has an auto-assign
- * attribute.
- *
- * @param string $table
- * @param array $data
- * @return int insert_id
- */
-function myInsert($table, $data) {
-	if (!is_array($data)) {
-		return;
-	}
-	$fields = "";
-	$values = "";
-	foreach ($data as $key => $val) {
-		$fields .= !empty($fields) ? ",`".$key."`" : "`".$key."`";
-		$values .= !empty($values)
-			? ','.(trim($val) != '' ? "'".mysql_real_escape_string($val)."'" : 'NULL')
-			: (trim($val) != '' ? "'".mysql_real_escape_string($val)."'" : 'NULL');
-	}
-	$sql = "INSERT INTO $table ($fields) VALUES ($values);";
-	$result = myQuery($sql);
-	if ($result) {
-		return mysql_insert_id();
-	}
-
-	return FALSE;
-}
-
-/**
- * Performs a quest and returns the results object if the query did not generate
- * an error. If an error was generated then the output of mysql_error() is logged
- * and also sent to the fatalError function.
- */
-function myQuery($query) {
-	$result = mysql_query($query);
-	if (!$result) {
-		$errorMSG = mysql_error();
-		$errorMSG .= "\n\n".preg_replace('/\s+/', ' ', $query);
-		fatalError($errorMSG, $reportCallStack=1);
-	}
-	return $result;
-}
-
-/**
-* Generic update function, will only update a single row
-*
-* @param string $table Table to update
-* @param array $data Data to update in the table
-* @param string $condition Any conditional statements (Where id=3)
-*/
-function myUpdate($table, $data, $condition = null) {
-	foreach ($data as $key => $val) {
-		$values .= !empty($values) ? "," : "";
-		$values .= '`'.$key.'`='.(trim($val) != '' ? "'".mysql_real_escape_string($val)."'" : "NULL");
-	}
-	$sql = "UPDATE $table SET $values $condition";
-	return myQuery($sql);
-}
-
-/**
- * Steps through items or arrays in an array and applies mysql_real_escape_array().
- * Precondition: a connection to the database
- * @param mixed $array
- * @return mixed $array
- */
-function mysql_real_escape_array($array) {
-	foreach ($array as $key => $value) {
-		if (is_array($value)) {
-			$array[$key] = mysql_real_escape_array($value);
-		} else {
-			$array[$key] = mysql_real_escape_string($value);
-		}
-	}
-	return $array;
-}
-
 
 /**
  * This function this function prepares the $_POST variable for extraction.
@@ -277,7 +171,8 @@ function validatePassword($userName, $userPass) {
 	$sql .= "FROM users ";
 	$sql .= "WHERE emailTxt = '$userName' ";
 	$sql .= "  AND passwordTxt = '$userPass'";
-	$result = myQuery($sql);
+	$oDB = new genesis\db;
+	$result = $oDB->query($sql);
 
 	if (mysql_num_rows($result) == 1) {
 		list($userId) = mysql_fetch_row($result);
