@@ -1,0 +1,9 @@
+
+web/error_log
+
+web/includes/customConfig.php
+
+web/smarty/compile
+web/logs/error.log
+
+web/includes/customConfig.php

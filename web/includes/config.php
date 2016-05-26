@@ -11,6 +11,8 @@ session_start();
 //===========================================================
 // General Config
 //
+error_reporting(E_ALL - E_NOTICE);
+
 
 // Determine the app root
 $dirs = split('/', substr(dirname(__FILE__), strlen($_SERVER['DOCUMENT_ROOT'])));
