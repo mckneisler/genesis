@@ -4,7 +4,7 @@ This project is a baseline template application using object-oriented PHP and My
 
 It will contain the following components:
 
-	▪	Developed using Laravel Framework (not yet implemented)
+	▪	Developed using Laravel 5.2 Framework (implemented)
 	▪	Responsive design and menu system (implemented)
 	▪	Object-oriented (implemented)
 	▪	Fully configurable languages, fonts, color themes, shading and rounding (implemented)
