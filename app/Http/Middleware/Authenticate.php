@@ -21,6 +21,11 @@ class Authenticate
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
+				flash()->embed(
+					trans('phrase.notLoggedIn'),
+					trans('phrase.notLoggedInText'),
+					'warning'
+				);
                 return redirect()->guest('login');
             }
         }

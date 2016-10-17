@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use Carbon\Carbon;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -24,7 +26,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+		$date = Carbon::now()->format('Y-m-d');
+		$log = storage_path('logs') . '/backups/' . Carbon::now()->format('Y-m') . '.log';
+		$schedule->command(
+			'db:backup --database=mysql --destination=local --destinationPath=/backups/' . $date . ' --compression=gzip'
+		)
+			->dailyAt(2)
+			->appendOutputTo($log);
+		$schedule->command(
+			'db:restore --database=mysql --source=local --sourcePath="/backups/genesis.gz" --compression=gzip'
+		)
+			->dailyAt(3)
+			->appendOutputTo($log);
     }
 }

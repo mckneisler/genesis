@@ -108,6 +108,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+		'email' => choose(code('objects.email')->name, 1),
+		'password' => choose(code('objects.password')->name, 1)
+	],
 
 ];

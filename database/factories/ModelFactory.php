@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\User;
+use App\Models\Music\Artist;
+use App\Models\Music\Album;
+use App\Models\Music\Song;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,7 +16,7 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
@@ -20,24 +25,24 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Artist::class, function (Faker\Generator $faker) {
+$factory->define(Artist::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company
     ];
 });
 
-$factory->define(App\Album::class, function (Faker\Generator $faker) {
+$factory->define(Album::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
-		'artist_id' => App\Artist::all()->random()->id
+		'artist_id' => App\Models\Music\Artist::all()->random()->id
     ];
 });
 
-$factory->define(App\Song::class, function (Faker\Generator $faker) {
-    $album_id = App\Album::all()->random()->id;
+$factory->define(Song::class, function (Faker\Generator $faker) {
+    $album_id = Album::all()->random()->id;
 	return [
         'name' => $faker->company,
 		'album_id' => $album_id,
-		'artist_id' => App\Album::find($album_id)->artist_id
+		'artist_id' => Album::find($album_id)->artist_id
     ];
 });

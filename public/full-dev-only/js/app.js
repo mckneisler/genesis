@@ -4,73 +4,6 @@ $(function(){
 	var leftnav = $('#leftnav');
 	var rightpnav = $('#rightnav');
 
-/*
-	navButton.click(function() {
-alert('In navButton click');
-		var activeItem = leftnav.find('a.w3-theme-d3');
-		if (!activeItem.is(":visible")) {
-alert('attempting itemActivate');
-			leftnav.smartmenus("itemActivate", activeItem);
-alert('attempted itemActivate');
-		}
-	}).click();
-
-
-	leftnav.bind('show.smapi', function(e, menu) {
-alert('In leftnav show');
-		var activeItem = leftnav.find('a.w3-theme-l3');
-alert('attempting itemActivate');
-		leftnav.smartmenus('itemActivate', activeItem);
-alert('attempted itemActivate');
-	});
-
-	topnav.bind('activate.smapi', function(e, item) {
-		if (!topnav.data('smartmenus').isCollapsible()) {
-			return false;
-		}
-	});
-
-	var navButton = $('#navButton');
-	topnav.smartmenus({
-		subMenusSubOffsetX: 2,
-		subMenusSubOffsetY: -6,
-		subIndicators: false,
-		collapsibleShowFunction: null,
-		collapsibleHideFunction: null,
-		rightToLeftSubMenus: topnav.hasClass('navbar-right'),
-		bottomToTopSubMenus: topnav.closest('.navbar').hasClass('navbar-fixed-bottom')
-	});
- */
-
-/*
-	navButton.click(function() {
-		var activeItem = topnav.find('a.w3-theme-d3');
-		if (activeItem.is(":visible")) {
-			topnav.smartmenus("menuHideAll");
-		} else {
-			topnav.smartmenus("menuHideAll");
-			topnav.smartmenus("itemActivate", activeItem);
-		}
-	}).click();
-
-   $('#navButton').click(function() {
-    var $this = $(this),
-        $menu = $('#topnav');
-    if (!$this.hasClass('collapsed')) {
-      if (!$menu.hasClass('collapsed')) {
-        $menu.slideUp(250, function() { $(this).addClass('collapsed').css('display', ''); });
-      }
-      $this.addClass('collapsed');
-    } else {
-      $menu.slideDown(250, function() { $(this).removeClass('collapsed'); });
-      $this.removeClass('collapsed');
-    }
-    return false;
-  }).click();
- */
-
-
-
 	$(window).scroll(function() {
 		fixTopNav();
 	});
@@ -90,7 +23,7 @@ alert('attempted itemActivate');
 		fixTopNav();
 		fixSwipeBar();
 
-		var setFocusId = $("#setFocusId");
+		var setFocusId = $("#set_focus_id");
 		if (setFocusId) {
 			$("#" + setFocusId.val()).focus();
 		}
@@ -128,7 +61,7 @@ function fixSwipeBar() {
 		} else {
 			$("[id^=" + $(this).attr("id") + "Swipe]").removeClass("w3-show");
 		}
-	})
+	});
 }
 
 function fixHeading() {
@@ -177,8 +110,6 @@ function fixTopNav() {
 	}
 }
 
-fixHeading();
-
 function changeFavorite(object, id, userId, checked) {
 	if (checked) {
 		$url = "/music/" + object + "/" + id + "/favoritedBy/" + userId;
@@ -208,9 +139,23 @@ function refreshWith(name, value) {
 }
 
 function search(e, value) {
-	if(e.keyCode === 13){
+	if (e.keyCode === 13) {
 		refreshWith('search', value);
 	}
 
 	return false;
+}
+
+function setSelectField(select, field) {
+	var value = $(select).find(":selected").text().trim();
+	$('#' + field).val(value);
+}
+
+function formActionUpdateAndSubmit(select, form_name) {
+	var value = $(select).val();
+	var form = $(form_name);
+	var new_action = form.prop('action').replace('{select_id}', value);
+	form.prop('action', new_action);
+	select.remove();
+	form.submit();
 }

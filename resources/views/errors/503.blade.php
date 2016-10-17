@@ -41,6 +41,13 @@
         <div class="container">
             <div class="content">
                 <div class="title">Be right back.</div>
+{{--
+				@if (Auth::user())
+					<div>{{ Auth::user()->name }}</div>
+				@else
+					<div>Guest</div>
+				@endif
+--}}
             </div>
         </div>
     </body>

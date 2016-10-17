@@ -1,7 +1,7 @@
-@extends('layouts.form', ['title' => trans('action.register'), 'action' => url('/register')])
+@extends('layouts.form', ['title' => trans('action.register'), 'url' => url('/register')])
 
 @section('formContent')
-	<input type="hidden" id="setFocusId" value="{{ count($errors) ? $errors->keys()[0] : 'name' }}" />
+	<input type="hidden" id="set_focus_id" value="{{ count($errors) ? $errors->keys()[0] : 'name' }}">
 
 	@include('layouts.input', ['name' => 'name'])
 
@@ -15,9 +15,8 @@
 		'label' => trans('phrase.confirmObject', ['object' => trans('object.password')])]
 	)
 
-	@include('layouts.input', [
+	@include('layouts.button.single', [
 		'name' => 'register',
-		'type' => 'button',
 		'icon' => 'fa-user']
 	)
 @endsection

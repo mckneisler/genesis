@@ -7,10 +7,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use App\User;
-use App\Artist;
-use App\Album;
-use App\Song;
+use App\Models\User;
+use App\Models\Music\Artist;
+use App\Models\Music\Album;
+use App\Models\Music\Song;
 
 class LoadSongs extends Job implements ShouldQueue
 {
@@ -44,7 +44,7 @@ class LoadSongs extends Job implements ShouldQueue
 		define ('GENRE', 5);
 		define ('RATING', 25);
 
-		if (!User::all()->count()) {
+		if ( ! User::all()->count()) {
 			User::create([
 				'name' => 'Mark Kneisler',
 				'email' => 'mckneisler@hotmail.com',
@@ -52,7 +52,7 @@ class LoadSongs extends Job implements ShouldQueue
 			]);
 		}
 
-		if (!Artist::all()->count()) {
+		if ( ! Artist::all()->count()) {
 			Artist::create([
 				'name' => 'Various Artists'
 			]);
@@ -62,7 +62,7 @@ class LoadSongs extends Job implements ShouldQueue
 		foreach ($songs as $i => $song) {
 			$fields = explode("\t", $song);
 dump($fields);
-			if ($i > 0 && $fields[SONG] && $fields[ARTIST] && $fields[ALBUM] && !in_array($fields[GENRE], ["Comedy", "Voice Memo"])) {
+			if ($i > 0 && $fields[SONG] && $fields[ARTIST] && $fields[ALBUM] && ! in_array($fields[GENRE], ["Comedy", "Voice Memo"])) {
 				$values = [
 					'name' => $fields[ARTIST]
 				];

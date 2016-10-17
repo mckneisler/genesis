@@ -31,4 +31,8 @@ class flash {
 		$this->create($title, $message, $level, 'flash_message_overlay');
 	}
 
+	public function embed($title, $message, $level = 'info')
+	{
+		$this->create($title, $message, $level, 'flash_message_embed');
+	}
 }

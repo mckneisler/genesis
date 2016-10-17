@@ -14,8 +14,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-		\App\Http\Middleware\SetCustom::class,
+		\App\Http\Middleware\DbCheck::class
     ];
 
     /**
@@ -30,6 +29,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+			\App\Http\Middleware\CustomConfig::class
         ],
 
         'api' => [
@@ -49,6 +49,9 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'permission' => \App\Http\Middleware\PermissionCheck::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'user' => \App\Http\Middleware\UserCheck::class,
+        'maint' => \App\Http\Middleware\CheckForMaintenanceMode::class,
     ];
 }

@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+use App\Models\Admin\Permission;
+use App\Models\User;
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -25,9 +28,31 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         parent::boot($router);
-		$router->model('artists', 'App\Artist');
-		$router->model('albums', 'App\Album');
-		$router->model('songs', 'App\Song');
+		$router->model('albums', 'App\Models\Music\Album');
+		$router->model('artists', 'App\Models\Music\Artist');
+		$router->bind('permissions', function ($value) {
+			list($object, $action) = explode('-', $value);
+			$permission =  Permission::select([
+					'permissions.id',
+					'object_id',
+					'action_id',
+					'permissions.created_at',
+					'permissions.updated_at',
+					'permissions.created_by',
+					'permissions.updated_by'
+				])
+				->locale(['code', 'name', 'description'])
+				->lookup($object, $action)
+				->first();
+			return $permission;
+		});
+		$router->model('records', 'App\Models\Admin\PermissionRecord');
+		$router->model('songs', 'App\Models\Music\Song');
+		$router->bind('users', function ($value) {
+			return User::withTrashed()
+				->where('id', $value)
+				->first();
+		});
     }
 
     /**

@@ -8,8 +8,11 @@
 	@if (request()->has('order'))
 		<input type="hidden" name="order" id="order" value="{{ request()->order }}">
 	@endif
+	@if (request()->has('status'))
+		<input type="hidden" name="status" id="status" value="{{ request()->status }}">
+	@endif
 	@foreach ($table['columns'] as $column)
-		@if ((!array_has($column, 'condition') || $column['condition']) && array_has($column, 'filter'))
+		@if (( ! array_has($column, 'condition') || $column['condition']) && array_has($column, 'filter'))
 			<input
 				type="hidden"
 				name="{{ $column['filter']['name'] }}"
@@ -31,145 +34,57 @@
 		<thead>
 			<tr class="w3-theme-l3">
 				{? $line = ""; ?}
-				@foreach ($table['columns'] as $column)
-					@if (!array_has($column, 'condition') || $column['condition'])
-						@if (!array_has($column, 'type') || $column['type'] != 'actions')
+				@foreach ($table['columns'] as $col_id => $column)
+					{{-- If none of the records in the table have actions, then remove the actions column --}}
+					@if (array_has($column, 'type') && $column['type'] == 'actions')
+						{? $showActions = false; ?}
+						@foreach ($table['query'] as $record)
+							@if(!$showActions)
+								@foreach ($column['links'] as $id => $link)
+									{? $showLink = determineShowLink($link, $record); ?}
+									@if ($showLink)
+										{? $showActions = true; ?}
+										{? break; ?}
+									@endif
+								@endforeach
+							@endif
+							@if($showActions)
+								{? break; ?}
+							@endif
+						@endforeach
+						@if (array_has($column, 'condition'))
+							{? $column['condition'] = $column['condition'] && $showActions; ?}
+						@else
+							{? $column['condition'] = $showActions; ?}
+						@endif
+						{? $table['columns'][$col_id]['condition'] = $column['condition']; ?}
+						@if (!$column['condition'])
+							{? $table['colspan'] = $table['colspan'] - 1; ?}
+						@endif
+					@endif
+
+					@if ( ! array_has($column, 'condition') || $column['condition'])
+						@if ( ! array_has($column, 'type') || $column['type'] != 'actions')
 							@if ($line)
 								{? $line .= config('custom.delimiter'); ?}
 							@endif
 							{? $line .= $column['heading']; ?}
 						@endif
-						<th
-							class="{{ $column['size'] }} {{ array_has($column, 'align') ? $column['align'] : 'w3-left-align' }}"
-						>
-							@if (array_has($column, 'sort'))
-								<a
-									class="underline"
-									@if ($column['sort']['name'] == request()->sort)
-										@if (!request()->has('order') || request()->order == 'asc')
-											onclick="refreshWith('sort', '{{ $column['sort']['name'] }}:desc')"
-										@else
-											onclick="refreshWith('sort', '{{ $column['sort']['name'] }}:asc')"
-										@endif
-									@else
-										onclick="refreshWith('sort', '{{ $column['sort']['name'] }}:{{ $column['sort']['order'] }}')"
-									@endif
-								>
-								@if ($column['sort']['name'] == request()->sort)
-									<em>
-								@endif
-								{{ $column['heading'] }}
-								@if ($column['sort']['name'] == request()->sort)
-									@if (!request()->has('order') || request()->order == 'asc')
-										<i class="fa fa-sort-asc"></i>
-									@else
-										<i class="fa fa-sort-desc"></i>
-									@endif
-									</em>
-								@else
-									<i class="fa fa-sort"></i>
-								@endif
-								</a>
-							@else
-								{{ $column['heading'] }}
-							@endif
-						</th>
+						@include('layouts.table.header', compact('column'))
 					@endif
 				@endforeach
 				{? fwrite($file, "$line\n"); ?}
 			</tr>
 		</thead>
+
 		<tbody>
 			@if (array_has($table, 'filters') && $table['filters'])
-				<tr>
-					@foreach ($table['columns'] as $column)
-						@if (!array_has($column, 'condition') || $column['condition'])
-							<td>
-								@if (array_has($column, 'filter'))
-									@include('layouts.select', ['select' => $column['filter']])
-								@else
-									&nbsp;
-								@endif
-							</td>
-						@endif
-					@endforeach
-				</tr>
+				@include('layouts.table.filters', compact('table'))
 			@endif
 			@if ($table['query']->count())
 				@foreach ($table['query'] as $record)
 					{? $line = ""; ?}
-					<tr class="w3-hover-theme-l4">
-						@foreach ($table['columns'] as $column)
-							@if (!array_has($column, 'condition') || $column['condition'])
-								<td class="{{ array_has($column, 'align') ? $column['align'] : 'w3-left-align' }}">
-								@if (array_has($column, 'type'))
-									@if ($column['type'] == 'checkbox')
-										@if ($line)
-											{? $line .= config('custom.delimiter'); ?}
-										@endif
-										@if ($record->{$column['field']})
-											{? $line .= "x"; ?}
-										@else
-											{? $line .= " "; ?}
-										@endif
-										<span>
-											<input
-												type="checkbox"
-												class="w3-check"
-												onclick="{!! vsprintf($column['onclick'], array_only($record->toArray(), $column['subFields'])) !!}"
-												@if ($record->{$column['field']})
-													checked
-												@endif
-											>
-											<span class="w3-hide" id="{{ vsprintf($column['spanId'], array_only($record->toArray(), $column['subFields'])) }}">&nbsp;</span>
-										</span>
-									@elseif ($column['type'] == 'actions')
-										<div class="w3-hide-small">
-											@foreach ($column['links'] as $link)
-												@if (!array_has($link, 'condition') || $link['condition'])
-													[<a href="{{ vsprintf($link['href'], array_only($record->toArray(), $link['subFields'])) }}">{{ $link['text'] }}</a>]
-												@endif
-											@endforeach
-										</div>
-										<div class="w3-hide-medium w3-hide-large dropdown">
-											<button class="btn dropdown-toggle w3-theme" type="button" data-toggle="dropdown">
-												{{ trans('action.select') }} <span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu dropdown-menu-right w3-theme-l5">
-												@foreach ($column['links'] as $link)
-													@if (!array_has($link, 'condition') || $link['condition'])
-														<li>
-															<a
-																href="{{ vsprintf($link['href'], array_only($record->toArray(), $link['subFields'])) }}"
-																class="w3-hover-theme-l3"
-															>
-																{{ $link['text'] }}
-															</a>
-														</li>
-													@endif
-												@endforeach
-											</ul>
-										</div>
-									@endif
-								@else
-									@if ($line)
-										{? $line .= config('custom.delimiter'); ?}
-									@endif
-									@if (array_has($column, 'table'))
-										{? $line .= quote($record->{$column['table']}->{$column['field']}); ?}
-									@else
-										{? $line .= quote($record->{$column['field']}); ?}
-									@endif
-									@if (array_has($column, 'table'))
-										{{ $record->{$column['table']}->{$column['field']} }}
-									@else
-										{{ $record->{$column['field']} }}
-									@endif
-								@endif
-								</td>
-							@endif
-						@endforeach
-					</tr>
+					@include('layouts.table.row', compact('table', 'record'))
 					{? fwrite($file, "$line\n"); ?}
 				@endforeach
 			@else
@@ -183,7 +98,10 @@
 			<tr class="w3-theme-l3">
 				<td colspan="{{ $table['colspan'] }}">
 					@if ($table['query']->count())
+						&nbsp;
+{{--
 						{{ trans('action.download') }}: <a href="\download\{{ $filename }}">{{ $filename }}</a>
+--}}
 					@else
 						&nbsp;
 					@endif

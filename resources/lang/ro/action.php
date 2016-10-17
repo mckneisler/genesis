@@ -16,6 +16,7 @@ return [
 	'deleted' => 'Elimină',
 	'download' => 'Descarca',
 	'edit' => 'Editare',
+	'list' => 'Lista',
 	'login' => 'Login',
 	'logout' => 'Deconectare',
 	'register' => 'Inregistreaza',

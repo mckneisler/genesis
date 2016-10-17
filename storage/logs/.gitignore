@@ -1,2 +1,8 @@
 *
 !.gitignore
+!backups/
+backups/*
+!backups/.gitignore
+!scheduler/
+scheduler/*
+!scheduler/.gitignore
