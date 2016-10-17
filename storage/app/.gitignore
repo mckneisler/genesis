@@ -1,3 +1,8 @@
 *
-!public/
 !.gitignore
+!backups/
+backups/*
+!backups/.gitignore
+!public/
+public/*
+!public/.gitignore

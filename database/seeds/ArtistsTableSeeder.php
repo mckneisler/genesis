@@ -2,15 +2,18 @@
 
 use Illuminate\Database\Seeder;
 
+use App\Models\User;
+use App\Models\Music\Artist;
+
 class ArtistsTableSeeder extends Seeder
 {
 	public function run()
 	{
 		$this->command->info('Creating artists...');
-		factory('App\Artist', 5)->create()->each(function($artist) {
-			$rand = rand(0, App\User::count());
+		factory(Artist::class, 5)->create()->each(function($artist) {
+			$rand = rand(0, User::count());
 			if ($rand > 0) {
-				$users = App\User::lists('id')->random($rand);
+				$users = User::lists('id')->random($rand);
 				if ($rand == 1) {
 					$usersArray = [$users];
 				} else {

@@ -43,7 +43,7 @@ return [
 	|    Bootstrap, W3
     |
     */
-	'style' => 'w3',
+	'style' => 'bootstrap',
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ return [
 	|    Left, Top, Bottom
     |
     */
-	'labelPosition' => 'left',
+	'label_position' => 'left',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
 	|    False - squares buttons and forms
     |
     */
-	'round' => true,
+	'round' => '1',
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ return [
 	|    Verdana
     |
     */
-	'font' => 'verdana',
+	'font' => 'comic-sans',
 
     /*
     |--------------------------------------------------------------------------
@@ -89,7 +89,7 @@ return [
 	|    Grey, Dark Grey, Black
     |
     */
-	'theme' => 'cyan',
+	'theme' => 'purple',
 
     /*
     |--------------------------------------------------------------------------
@@ -103,14 +103,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-	| showSubmenus
+	| show_submenus
     |--------------------------------------------------------------------------
     |
 	|    True - display submenus
 	|    False - do not display submenus
     |
     */
-	'showSubmenus' => false,
+	'show_submenus' => '0',
 	'delimiter' => ',',
-	'textQualifier' => '"'
+	'qualifier' => '"',
+	'date_format' => 'M j, Y',
+	'time_format' => 'g:i a',
+	'timezone' => 'America/Chicago',
+	'message_timer' => 4000,
+	'show_popup_messages' => '0',
+	'show_popup_errors' => '0'
 ];

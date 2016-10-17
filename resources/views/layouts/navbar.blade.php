@@ -29,15 +29,15 @@
 
     </div><!--/.nav-collapse -->
 </div>
-@if (config('custom.showSubmenus'))
+@if (config('custom.show_submenus'))
 	@foreach ($menu::get('left') as $item)
 		@if (Request::segment(1) == $item['id'] && array_has($item, 'submenu'))
-			@include ('layouts.navbarL2', ['menu' => $item['submenu'], 'align' => 'navbar-left'])
+			@include ('layouts.navbar.level2', ['menu' => $item['submenu'], 'align' => 'navbar-left'])
 		@endif
 	@endforeach
 	@foreach ($menu::get('right') as $item)
 		@if (Request::segment(1) == $item['id'] && array_has($item, 'submenu'))
-			@include ('layouts.navbarL2', ['menu' => $item['submenu'], 'align' => 'w3-right'])
+			@include ('layouts.navbar.level2', ['menu' => $item['submenu'], 'align' => 'w3-right'])
 		@endif
 	@endforeach
 @endif

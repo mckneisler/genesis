@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -37,6 +38,12 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('maint', [
+			'except' => [
+				'showLoginForm',
+				'login',
+				'logout'
+		]]);
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -49,9 +56,9 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
 		$localeNames = [
-            'name' => trans('object.name'),
-            'email' => trans('object.email'),
-            'password' => trans('object.password')
+            'name' => choose(code('objects.name')->name, 1),
+            'email' => choose(code('objects.email')->name, 1),
+            'password' => choose(code('objects.password')->name, 1)
 		];
 
         $validator = Validator::make($data, [

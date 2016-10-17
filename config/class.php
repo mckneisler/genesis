@@ -29,6 +29,7 @@ return [
 	'container' => '',
 	'row' => '',
 	'header' => 'w3-theme-l3',
+	'footer' => 'w3-container w3-tiny w3-theme-l3',
 	'label' => '',
 	'inputDiv' => '',
 	'input' => '',
@@ -36,7 +37,9 @@ return [
 	'button' => 'btn btn-primary w3-theme-dark',
 	'form' => 'w3-half',
 	'search' => 'w3-text-theme search',
-	'search-button' => 'btn btn-primary w3-theme-dark w3-right',
+	'search_button' => 'btn btn-primary w3-theme-dark',
+	'dropdown_button' => 'btn btn-primary w3-theme-dark',
+	'fieldset' => 'fieldset',
 
     /*
     |--------------------------------------------------------------------------

@@ -1,6 +1,9 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\Code;
+use App\Models\OptionUserValue;
+use App\Models\Admin\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +18,15 @@ use Carbon\Carbon;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('maint');
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index')
+	->middleware('maint');
 
-Route::get('/load/{file}', 'LoadController@songs');
+Route::get('/load/{file}', 'LoadController@songs')
+	->middleware('maint');
 
 Route::get('/download/{file}', function ($file) {
 	$filepath = public_path(). "/download/" . $file;
@@ -33,16 +38,115 @@ Route::get('/download/{file}', function ($file) {
 	}
 	$headers = ['Content-Type: $mime'];
 	return Response::download($filepath, $file, $headers);
+})->middleware('maint');
+
+Route::get('/music/artists/{artists}/favoritedBy/{users}', 'Music\ArtistsController@favoritedBy')
+	->middleware('maint');
+Route::get('/music/artists/{artists}/unfavoritedBy/{users}', 'Music\ArtistsController@unfavoritedBy')
+	->middleware('maint');
+Route::resource('/music/artists', 'Music\ArtistsController', ['except' => ['show', 'destroy']]);
+
+Route::get('/music/albums/{albums}/favoritedBy/{users}', 'Music\AlbumsController@favoritedBy')
+	->middleware('maint');
+Route::get('/music/albums/{albums}/unfavoritedBy/{users}', 'Music\AlbumsController@unfavoritedBy')
+	->middleware('maint');
+Route::resource('/music/albums', 'Music\AlbumsController', ['except' => ['show', 'destroy']]);
+
+Route::get('/music/songs/{songs}/favoritedBy/{users}', 'Music\SongsController@favoritedBy')
+	->middleware('maint');
+Route::get('/music/songs/{songs}/unfavoritedBy/{users}', 'Music\SongsController@unfavoritedBy')
+	->middleware('maint');
+Route::resource('/music/songs', 'Music\SongsController', ['except' => ['show', 'destroy']]);
+
+Route::bind('codes', function ($value) {
+	$type_path = Route::current()->getParameter('types');
+
+	list($parent, $type) = code()->getParentFromPath($type_path);
+	$code =  Code::select(
+			'id',
+			'code',
+			'values_code_id',
+			'codes.created_at',
+			'codes.updated_at',
+			'codes.deleted_at',
+			'codes.created_by',
+			'codes.updated_by',
+			'codes.deleted_by'
+		)
+		->where('parent_code_id', $type->id)
+		->where('code', $value)
+		->locale(['name', 'description'])
+		->withTrashed()
+		->first();
+	return $code;
 });
+Route::resource('admin.codes', 'Admin\CodesController', [
+	'parameters' => [
+	    'admin' => 'types'
+	],
+	'except' => [
+	    'show',
+		'destroy'
+	]
+]);
 
-Route::get('/music/artists/{artist_id}/favoritedBy/{user_id}', 'ArtistsController@favoritedBy');
-Route::get('/music/artists/{artist_id}/unfavoritedBy/{user_id}', 'ArtistsController@unfavoritedBy');
-Route::resource('/music/artists', 'ArtistsController');
+Route::get('/admin/maint/{mode}', function ($mode) {
+    Artisan::call($mode);
+	flash()->embed(
+		trans('phrase.maintMode'),
+		trans('phrase.maintStatus', ['mode' => $mode]),
+		'warning'
+	);
+    return redirect('/');
+})->middleware('auth')->middleware('permission:maint-edit');
 
-Route::get('/music/albums/{album_id}/favoritedBy/{user_id}', 'AlbumsController@favoritedBy');
-Route::get('/music/albums/{album_id}/unfavoritedBy/{user_id}', 'AlbumsController@unfavoritedBy');
-Route::resource('/music/albums', 'AlbumsController');
+Route::resource('/admin/security/permissions', 'Admin\PermissionsController', ['except' => ['show', 'destroy']]);
 
-Route::get('/music/songs/{song_id}/favoritedBy/{user_id}', 'SongsController@favoritedBy');
-Route::get('/music/songs/{song_id}/unfavoritedBy/{user_id}', 'SongsController@unfavoritedBy');
-Route::resource('/music/songs', 'SongsController');
+Route::resource('/admin/security/permissions.records', 'Admin\PermissionRecordsController', [
+	'parameters' => [
+	    'admin' => null,
+	    'security' => null,
+	    'permissions' => 'permissions'
+	],
+	'except' => [
+	    'show',
+		'destroy'
+	]
+]);
+
+Route::resource('/admin/security/users', 'UsersController', [
+	'except' => [
+		'show',
+		'destroy'
+	]
+]);
+
+Route::resource('/admin/options', 'OptionsController', [
+	'parameters' => [
+	    'options' => 'users'
+	],
+	'only' => [
+		'edit',
+		'update'
+	]
+]);
+
+Route::resource('/users/options', 'OptionsController', [
+	'parameters' => [
+	    'options' => 'users'
+	],
+	'only' => [
+		'edit',
+		'update'
+	]
+]);
+
+Route::resource('/users/profile', 'UsersController', [
+	'parameters' => [
+	    'profile' => 'users'
+	],
+	'only' => [
+		'edit',
+		'update'
+	]
+]);

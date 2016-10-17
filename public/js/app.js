@@ -18,9 +18,9 @@ $(function(){
 		fixTopNav();
 		fixSwipeBar();
 
-		var setFocusId = $("#setFocusId");
+		var setFocusId = $("#set_focus_id");
 		if (setFocusId) {
-			$("#" + setFocusId.val()).focus();
+			$("#" + set_focus_id.val()).focus();
 		}
 	});
 });

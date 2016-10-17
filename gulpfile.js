@@ -20,7 +20,9 @@ elixir(function(mix) {
 		'libs/w3.css',
 		'libs/font-awesome.min.css',
 		'libs/sweetalert.css',
-		'app.css'
+		'libs/select2.min.css',
+		'libs/sqlsyntax.css'
+		//'app.css'
 	], null, 'resources/assets/css');
 
 	mix.scripts([
@@ -28,7 +30,8 @@ elixir(function(mix) {
 		'libs/bootstrap.min.js',
 		'libs/jquery.smartmenus.min.js',
 		'libs/jquery.smartmenus.bootstrap.min.js',
-		'app.js'
+		'libs/select2.min.js'
+		//'app.js'
 	]);
 
 	mix.version(['css/all.css', 'js/all.js']);

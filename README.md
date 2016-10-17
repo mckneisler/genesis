@@ -2,15 +2,19 @@
 
 This project is a baseline template application using object-oriented PHP and MySQL.
 
-It will contain the following components:
+## It contains the following components:
 
-	▪	Developed using Laravel 5.2 Framework (implemented)
-	▪	Responsive design and menu system (implemented)
-	▪	Object-oriented (implemented)
-	▪	Fully configurable languages, fonts, color themes, shading and rounding (implemented)
-	▪	Role-based security model with Facebook and Google+ login capabilities (not fully implemented)
-	▪	HTML-based notification system (not fully implemented)
-	▪	Configurable audit log to track changes (not yet implemented)
-	▪	Configurable troubleshooting and tracing for developers (not yet implemented)
+	▪	Developed using Laravel 5.2 Framework
+	▪	Responsive design and menu system
+	▪	Object-oriented
+	▪	Fully configurable languages, fonts, color themes, shading and rounding
+	▪	Role-based and record level security system
 
-Once completed this project will be used as a starting point for several open-source applications.
+## Future releases will contain the following components:
+
+	▪	Facebook and Google+ login capabilities
+	▪	HTML-based notification system
+	▪	Configurable audit log to track changes
+	▪	Configurable troubleshooting and tracing for developers
+
+Once completed this project will be used as a starting point for several open-source applications, including a scheduling and reservation system and a configurable application for restaurants.

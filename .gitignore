@@ -1,10 +1,7 @@
-/.komodotools
+**/.DS_Store
 /vendor
 /node_modules
-/public/download
 /public/storage
-/public/upload
-Genesis.komodoproject
 Homestead.yaml
 Homestead.json
 .env

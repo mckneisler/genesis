@@ -16,6 +16,7 @@ return [
 	'deleted' => 'Deleted',
 	'download' => 'Download',
 	'edit' => 'Edit',
+	'list' => 'List',
 	'login' => 'Login',
 	'logout' => 'Logout',
 	'register' => 'Register',

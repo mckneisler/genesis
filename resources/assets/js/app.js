@@ -90,7 +90,7 @@ alert('attempted itemActivate');
 		fixTopNav();
 		fixSwipeBar();
 
-		var setFocusId = $("#setFocusId");
+		var setFocusId = $("#set_focus_id");
 		if (setFocusId) {
 			$("#" + setFocusId.val()).focus();
 		}
@@ -186,6 +186,7 @@ function changeFavorite(object, id, userId, checked) {
 		$url = "/music/" + object + "/" + id + "/unfavoritedBy/" + userId;
 	}
 
+alert($url);
 	$.ajax({
 		type: "GET",
 		url: $url,

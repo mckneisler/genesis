@@ -13,15 +13,21 @@ return [
     */
 
 	'action' => 'Acţiune',
+	'admin' => 'Admin',
 	'album' => 'Album|Albume',
 	'artist' => 'Artist|Artisti',
+	'code' => 'Cod|Coduri',
+	'description' => 'Descriere|Descrieri',
 	'email' => 'Adresa de e-Mail',
 	'error' => 'eroare|erori',
 	'favorite' => 'Favorit',
 	'music' => 'Muzica',
 	'name' => 'Nume',
 	'password' => 'Parola',
+	'permission' => 'Permisiunea|Permisiuni',
+	'security' => 'Securitate',
 	'song' => 'Cântec|Melodii',
+	'user' => 'Utilizator|Utilizatorii',
 	'version' => 'Versiune',
 
 ];

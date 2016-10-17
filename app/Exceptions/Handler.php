@@ -45,6 +45,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+		switch (true) {
+			case $e instanceof \Illuminate\Database\QueryException:
+				break;
+			case $e instanceof \PDOException:
+dd($e);
+				return shutDown($e);
+				break;
+		}
+
         return parent::render($request, $e);
     }
 }

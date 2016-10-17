@@ -27,6 +27,8 @@
 
     <!-- Styles -->
     <link href="{{ elixir('css/all.css') }}" rel="stylesheet">
+ 	<link href="/full-dev-only/css/app.css" rel="stylesheet" media="all">
+ 	<link href="/full-dev-only/css/sqlsyntax.css" rel="stylesheet" media="all">
  	<link href="/full-dev-only/css/middle.css" rel="stylesheet" media="all">
 
     <!-- Colors -->
@@ -40,6 +42,7 @@
  	<link href="/full-dev-only/css/w3.css" rel="stylesheet" media="all">
  	<link href="/full-dev-only/css/app.css" rel="stylesheet" media="all">
  	<link href="/full-dev-only/css/sweetalert.css" rel="stylesheet" media="all">
+ 	<link href="/full-dev-only/css/sqlsyntax.css" rel="stylesheet" media="all">
 
 	<link type="text/css" rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 -->
@@ -59,16 +62,27 @@
 		</div>
 	</div>
 
-	@include ('layouts.navbar')
+	@include('layouts.navbar')
 
-	@include('layouts.flash')
+	@if (app()->isDownForMaintenance())
+		<div class="w3-container w3-section">
+			<div class="w3-container">
+				<div class="alert alert-danger fade in">
+					<strong>{{ trans('phrase.maintMode') }}</strong>:  {{ trans('phrase.maintDown') }}
+				</div>
+			</div>
+		</div>
+	@endif
 
 	<div class="w3-container w3-section">
+		@include('layouts.flash')
+
 		@yield('content')
 	</div>
 
     <!-- JavaScripts -->
 	<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+	<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
 
 <!--
 	<script type="text/javascript" src="/full-dev-only/js/jquery-1.11.3.js"></script>
@@ -77,6 +91,11 @@
 	<script type="text/javascript" src="/full-dev-only/js/jquery.smartmenus.bootstrap.js"></script>
 	<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
 -->
+	<script type="text/javascript">
+		$('div.alert').not('.alert-danger').not('.alert-warning').delay({{ config('custom.message_timer') }}).slideUp(300);
+	</script>
+	@yield('scripts')
+	@yield('scriptsSelect')
 
 	<div class="w3-container w3-small w3-theme">
 		<div class="w3-row">
@@ -97,9 +116,10 @@
 			</div>
 			<!-- Right -->
 			<div class="w3-third text-right w3-hide-small">
-				<p>{{ trans('object.version') }} 0.0</p>
+				<p>{{ trans('object.version') }} {{ config('app.version') }}</p>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>
