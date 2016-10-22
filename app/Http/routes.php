@@ -58,28 +58,9 @@ Route::get('/music/songs/{songs}/unfavoritedBy/{users}', 'Music\SongsController@
 	->middleware('maint');
 Route::resource('/music/songs', 'Music\SongsController', ['except' => ['show', 'destroy']]);
 
-Route::bind('codes', function ($value) {
-	$type_path = Route::current()->getParameter('types');
-
-	list($parent, $type) = code()->getParentFromPath($type_path);
-	$code =  Code::select(
-			'id',
-			'code',
-			'values_code_id',
-			'codes.created_at',
-			'codes.updated_at',
-			'codes.deleted_at',
-			'codes.created_by',
-			'codes.updated_by',
-			'codes.deleted_by'
-		)
-		->where('parent_code_id', $type->id)
-		->where('code', $value)
-		->locale(['name', 'description'])
-		->withTrashed()
-		->first();
-	return $code;
-});
+/**
+ * Model bindings for models dependent on locale can be found in the CustomConfig middleware
+ */
 Route::resource('admin.codes', 'Admin\CodesController', [
 	'parameters' => [
 	    'admin' => 'types'
