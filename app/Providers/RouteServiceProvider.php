@@ -28,6 +28,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         parent::boot($router);
+
+		/**
+		 * Model bindings for models dependent on locale can be found in the CustomConfig middleware
+		 */
 		$router->model('albums', 'App\Models\Music\Album');
 		$router->model('artists', 'App\Models\Music\Artist');
 		$router->bind('permissions', function ($value) {

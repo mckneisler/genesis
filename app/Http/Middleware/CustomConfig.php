@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\OptionUserValue;
+use App\Models\Code;
 
 class CustomConfig
 {
@@ -132,6 +133,33 @@ class CustomConfig
 				break;
 			default:
 				break;
+		}
+
+		/**
+		 * Model bindings for models dependent on locale
+		 */
+		if ($request->route()->hasParameter('codes')) {
+			$type_path = $request->route()->parameter('types');
+
+			list($parent, $type) = code()->getParentFromPath($type_path);
+
+			$code =  Code::select(
+					'id',
+					'code',
+					'values_code_id',
+					'codes.created_at',
+					'codes.updated_at',
+					'codes.deleted_at',
+					'codes.created_by',
+					'codes.updated_by',
+					'codes.deleted_by'
+				)
+				->where('parent_code_id', $type->id)
+				->where('code', $request->route()->parameter('codes'))
+				->locale(['name', 'description'])
+				->withTrashed()
+				->first();
+			$request->route()->setParameter('codes', $code);
 		}
 
         return $next($request);
