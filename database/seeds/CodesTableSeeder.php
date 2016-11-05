@@ -496,6 +496,18 @@ class CodesTableSeeder extends Seeder
 				'description' => 'Nume, descrieri şi fraze în limbi alternative'
 			]
 		]);
+		Code::create([
+			'parent_code_id' => $objects->id,
+			'code' => 'seconds',
+			'en' => [
+				'name' => 'Second|Seconds',
+				'description' => 'The 60th part of a minute of time'
+			],
+			'ro' => [
+				'name' => 'Secunde|Secunde',
+				'description' => 'Partea a 60 de minute de timp'
+			]
+		]);
 
 		/*
 		 * ACTIONS
@@ -1045,11 +1057,11 @@ class CodesTableSeeder extends Seeder
 			'code' => 'turquoise-island',
 			'en' => [
 				'name' => 'Turquoise Island',
-				'description' => 'To be provided by Babeth...'
+				'description' => 'Conveying an ethereal mood of beauty in serenity, this turquoise island exudes a visual panorama that amazes anyone that lays eyes on it.'
 			],
 			'ro' => [
 				'name' => 'Insula Turcoaz',
-				'description' => 'Pentru a fi furnizate de Babeth...'
+				'description' => 'Transmite o stare de spirit eteric de frumuseţe în linişte, această insulă turcoaz emană o panoramă vizuale care uimeste cineva care pune ochii pe ea.'
 			]
 		]);
 		Code::create([
@@ -1386,6 +1398,42 @@ class CodesTableSeeder extends Seeder
 				'description' => 'Utilizarea virgula ca delimitator'
 			]
 		]);
+		Code::create([
+			'parent_code_id' => $delimiters->id,
+			'code' => '\t',
+			'en' => [
+				'name' => 'Tab',
+				'description' => 'Use tab as delimiter'
+			],
+			'ro' => [
+				'name' => 'Fila',
+				'description' => 'Utilizarea fila ca separator'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $delimiters->id,
+			'code' => ';',
+			'en' => [
+				'name' => 'Semicolon',
+				'description' => 'Use semicolon as delimiter'
+			],
+			'ro' => [
+				'name' => 'Punct și virgulă',
+				'description' => 'Utilizarea punct și virgulă ca separator'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $delimiters->id,
+			'code' => '|',
+			'en' => [
+				'name' => 'Pipe',
+				'description' => 'Use pipe as delimiter'
+			],
+			'ro' => [
+				'name' => 'Ţeavă',
+				'description' => 'Utilizarea țeavă și virgulă ca separator'
+			]
+		]);
 
 		/*
 		 * QUALIFIERS
@@ -1413,6 +1461,18 @@ class CodesTableSeeder extends Seeder
 			'ro' => [
 				'name' => 'Citat Dublu',
 				'description' => 'Utilizarea dublă citat ca calificare'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $qualifiers->id,
+			'code' => '\'',
+			'en' => [
+				'name' => 'Single Quote',
+				'description' => 'Use single double quote as qualifier'
+			],
+			'ro' => [
+				'name' => 'Citat Unică',
+				'description' => 'Utilizarea citat unică ca calificare'
 			]
 		]);
 
@@ -1454,6 +1514,30 @@ class CodesTableSeeder extends Seeder
 			'ro' => [
 				'name' => '6 Jul 1957',
 				'description' => 'Ziua lunii fără zerouri, o reprezentare textuale scurt de o lună (trei litere) şi o reprezentare numerică complet de un an (4 cifre)'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $date_formats->id,
+			'code' => 'm/d/Y',
+			'en' => [
+				'name' => '07/06/1957',
+				'description' => 'Day of the month, 2 digits with leading zeros, numeric representation of a month, with leading zeros and a full numeric representation of a year, 4 digits, separated by forward slashes'
+			],
+			'ro' => [
+				'name' => '07/06/1957',
+				'description' => 'Zi a lunii, 2 cifre cu zerouri, reprezentarea numerică de o lună, cu zerouri şi o reprezentare numerică complet de un an, 4 cifre, separate prin slash-uri înainte'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $date_formats->id,
+			'code' => 'd.m.Y',
+			'en' => [
+				'name' => '06.07.1957',
+				'description' => 'Numeric representation of a month, with leading zeros, day of the month, 2 digits with leading zeros and a full numeric representation of a year, 4 digits, separated by periods'
+			],
+			'ro' => [
+				'name' => '06.07.1957',
+				'description' => 'Reprezentarea numerică a lunii, cu zerouri, ziua de luna, de 2 cifre cu zerouri şi o reprezentare numerică complet de un an, de 4 cifre, separate prin perioade'
 			]
 		]);
 

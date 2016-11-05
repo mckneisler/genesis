@@ -1,4 +1,42 @@
-$(function(){
+function timeFromSeconds(seconds) {
+    var mins,
+        secs;
+
+	// does the same job as parseInt truncates the float
+	mins = (seconds / 60) | 0;
+	secs = (seconds % 60) | 0;
+	return mins + ":" + (secs.toString().length > 1 ? secs : '0' + secs);
+}
+
+function startTimer(duration, name) {
+    var start = Date.now(),
+        diff,
+		element,
+		timer_id;
+
+    function timer() {
+        // get the number of seconds that have elapsed since
+        // startTimer() was called
+        diff = duration - (((Date.now() - start) / 1000) | 0);
+
+        if (diff <= 0) {
+			window.location.replace('/logout?timeout=1');
+        }
+
+		element = $('#' + name);
+		if (element.length && element.is(':visible')) {
+			element.html(timeFromSeconds(diff));
+		} else {
+			clearInterval(timer_id);
+			return;
+		}
+    }
+
+    // we don't want to wait a full second before the timer starts
+    timer_id = setInterval(timer, 1000);
+}
+
+$(function() {
 	var navButton = $('#navButton');
 	var topnav = $('#topnav');
 	var leftnav = $('#leftnav');
@@ -29,30 +67,6 @@ $(function(){
 		}
 	});
 });
-
-function showState() {
-	var msg = 'Showing stats:\n\n';
-	var topnav = $('#leftnav');
-	if (topnav.is(':visible')) {
-		msg += 'Is visible' + '\n';
-	} else {
-		msg += 'Is NOT visible' + '\n';
-	}
-	var activeItem = topnav.find('a.w3-theme-l3');
-	msg += 'Active item = ' + activeItem.text().trim() + '\n';
-
-	obj = topnav.data('smartmenus');
-	if (obj.isCollapsible()) {
-		msg += 'Is collapsible' + '\n';
-	} else {
-		msg += 'Is NOT collapsible' + '\n';
-	}
-	alert(msg);
-	topnav.smartmenus('itemActivate', activeItem);
-	return false;
-/*
-*/
-}
 
 function fixSwipeBar() {
 	$("table").each(function() {

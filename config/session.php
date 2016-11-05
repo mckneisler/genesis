@@ -27,11 +27,16 @@ return [
     | to be allowed to remain idle before it expires. If you want them
     | to immediately expire on the browser closing, set that option.
     |
+    | The warning delay is the amount of time in seconds to display a warning
+    | before the session automatically times out.
+    |
     */
 
     'lifetime' => 120,
 
     'expire_on_close' => false,
+
+	'timeout_warning_duration' => 300,
 
     /*
     |--------------------------------------------------------------------------

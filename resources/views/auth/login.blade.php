@@ -1,4 +1,7 @@
-@extends('layouts.form', ['title' => trans('action.login'), 'url' => url('/login')])
+@extends('layouts.form', [
+	'title' => trans('action.login'),
+	'url' => url('/login')
+])
 
 @section('formContent')
 	<input type="hidden" id="set_focus_id" value="{{ count($errors) ? $errors->keys()[0] : 'email' }}">

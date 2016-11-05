@@ -6,6 +6,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
@@ -85,5 +86,26 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function logout()
+    {
+		if (request()->has('timeout')) {
+			flash()->embed(
+				trans('phrase.autoLogOut'),
+				trans('phrase.loggedOutInactive'),
+				'warning'
+			);
+			$this->redirectAfterLogout = '/login';
+		}
+
+        Auth::guard($this->getGuard())->logout();
+
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 }

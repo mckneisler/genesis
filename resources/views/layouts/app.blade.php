@@ -47,7 +47,7 @@
 	<link type="text/css" rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 -->
 
-    <!-- JavaScripts -->
+    <!-- Javascript -->
 	<script type="text/javascript" src="/full-dev-only/js/sweetalert.min.js"></script>
 </head>
 <body id="app-layout">
@@ -80,7 +80,7 @@
 		@yield('content')
 	</div>
 
-    <!-- JavaScripts -->
+    <!-- Javascript -->
 	<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
 	<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
 
@@ -92,7 +92,44 @@
 	<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
 -->
 	<script type="text/javascript">
+		function startTimeout() {
+			var timeout_id = setTimeout(function() {
+				startTimer({{ config('session.timeout_warning_duration') }}, 'seconds');
+				swal({
+					html: true,
+					title: "{{ trans('phrase.inactivity') }}",
+					text: "{{ trans('phrase.sessionTimeout') }} <span id=\"seconds\">" + timeFromSeconds({{ config('session.timeout_warning_duration') }}) + "</span> {{ strtolower(choose(code('objects.seconds')->name, 2)) }}.",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "{{ trans('phrase.stayOnPage') }}",
+					cancelButtonText: "{{ trans('phrase.logMeOut') }}",
+					closeOnConfirm: true,
+					closeOnCancel: true
+				},
+				function(isConfirm) {
+					if (isConfirm) {
+						$.ajax({
+							type: "GET",
+							url:'/'
+						});
+						clearTimeout(timeout_id);
+						startTimeout();
+					} else {
+						window.location.replace('/logout');
+					}
+				});
+			}, ({{ (config('session.lifetime') * 60000) - (config('session.timeout_warning_duration') * 1000) }}));
+		}
+
 		$('div.alert').not('.alert-danger').not('.alert-warning').delay({{ config('custom.message_timer') }}).slideUp(300);
+
+		<!-- Session Timeout -->
+		@if (Auth::check())
+			$(function() {
+				startTimeout();
+			});
+		@endif
 	</script>
 	@yield('scripts')
 	@yield('scriptsSelect')
