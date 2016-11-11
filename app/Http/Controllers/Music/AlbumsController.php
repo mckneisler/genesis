@@ -94,14 +94,23 @@ class AlbumsController extends Controller
 
 	public function update(Album $album, AlbumRequest $request)
 	{
-		$album->update($request->all());
-		flash()->success(
-			trans('phrase.successUpdate'),
-			trans('phrase.objectUpdated', [
-				'object' => choose(code('objects.albums')->name, 1),
-				'name' => $request->name
-			])
-		);
+		$album->fill($request->all());
+		if ($album->isDirty()) {
+			$album->update();
+			flash()->success(
+				trans('phrase.successUpdate'),
+				trans('phrase.objectUpdated', [
+					'object' => choose(code('objects.albums')->name, 1),
+					'name' => $request->name
+				])
+			);
+		} else {
+			flash()->info(
+				trans('phrase.nothingSaved'),
+				trans('phrase.noChanges')
+			);
+		}
+
 		return redirect(session()->get('url.back', '/music/albums'));
 	}
 

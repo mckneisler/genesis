@@ -815,11 +815,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'label_positions',
 			'en' => [
-				'name' => 'Label Positions',
+				'name' => 'Label Position|Label Positions',
 				'description' => 'Position of the label in relation to the field'
 			],
 			'ro' => [
-				'name' => 'Eticheta Poziţii',
+				'name' => 'Poziţie Etichetă|Eticheta Poziţii',
 				'description' => 'Poziţia etichetei în ceea ce priveşte domeniul'
 			]
 		]);
@@ -868,11 +868,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'yes_no',
 			'en' => [
-				'name' => 'Choose Yes/No',
+				'name' => 'Yes/No Choice|Yes/No Choices',
 				'description' => 'Choice of yes or no'
 			],
 			'ro' => [
-				'name' => 'Alegeţi Da/Nu',
+				'name' => 'Da/Nu de Alegere|Da/Nu Alegeri',
 				'description' => 'Alegerea de da sau nu'
 			]
 		]);
@@ -909,11 +909,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'true_false',
 			'en' => [
-				'name' => 'Choose True/False',
+				'name' => 'True/False Choice|True/False Choices',
 				'description' => 'Choice of true or false'
 			],
 			'ro' => [
-				'name' => 'Alege Adevărat/Fals',
+				'name' => 'Alegerea Adevărat/Fals|Alegeri Adevărat/Fals',
 				'description' => 'Alegerea de adevărat sau fals'
 			]
 		]);
@@ -950,11 +950,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'on_off',
 			'en' => [
-				'name' => 'Choose On/Off',
+				'name' => 'On/Off Choice|On/Off Choices',
 				'description' => 'Choice of on or off'
 			],
 			'ro' => [
-				'name' => 'Selectaţi Pornit/Oprit',
+				'name' => 'On/Off Alegere|Pornire/Oprire Opţiuni',
 				'description' => 'Alegerea de pe sau de pe'
 			]
 		]);
@@ -991,11 +991,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'styles',
 			'en' => [
-				'name' => 'Style Sheets',
+				'name' => 'Style Sheet|Style Sheets',
 				'description' => 'A template consisting of font and layout settings'
 			],
 			'ro' => [
-				'name' => 'Foi de Stil',
+				'name' => 'Foaie de Stil|Foi de Stil',
 				'description' => 'Un şablon format din setările de font şi aspect'
 			]
 		]);
@@ -1032,11 +1032,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'colors',
 			'en' => [
-				'name' => 'Colors',
+				'name' => 'Color|Colors',
 				'description' => 'Shades and hues defined in a theme'
 			],
 			'ro' => [
-				'name' => 'Culori',
+				'name' => 'Culoare|Culori',
 				'description' => 'Nuanţe şi nuanţe definite într-o temă'
 			]
 		]);
@@ -1050,6 +1050,30 @@ class CodesTableSeeder extends Seeder
 			'ro' => [
 				'name' => 'Roşu',
 				'description' => 'Culoare Rudolph pe nas'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $colors->id,
+			'code' => 'neon-green',
+			'en' => [
+				'name' => 'Neon Green',
+				'description' => 'So bright you have to wear shades'
+			],
+			'ro' => [
+				'name' => 'Neon Verde',
+				'description' => 'Atât de luminos trebuie să poarte nuante'
+			]
+		]);
+		Code::create([
+			'parent_code_id' => $colors->id,
+			'code' => 'ice',
+			'en' => [
+				'name' => 'Ice',
+				'description' => 'Its icy color makes you shiver'
+			],
+			'ro' => [
+				'name' => 'Gheata',
+				'description' => 'Culoarea sa gheaţă te face să tremure'
 			]
 		]);
 		Code::create([
@@ -1325,11 +1349,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'shadow_sizes',
 			'en' => [
-				'name' => 'Shadow Sizes',
+				'name' => 'Shadow Size|Shadow Sizes',
 				'description' => 'Different sizes of shadow'
 			],
 			'ro' => [
-				'name' => 'Umbra Dimensiuni',
+				'name' => 'Umbra Dimensiune|Umbra Dimensiuni',
 				'description' => 'Diferite dimensiuni de umbra'
 			]
 		]);
@@ -1378,11 +1402,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'delimiters',
 			'en' => [
-				'name' => 'Delimiters',
+				'name' => 'Delimiter|Delimiters',
 				'description' => 'Character to be used to separate fields in output file'
 			],
 			'ro' => [
-				'name' => 'Separatori',
+				'name' => 'Separatorul de|Separatori',
 				'description' => 'De caractere pentru a fi folosit pentru a separa câmpurile în fişierul de ieşire'
 			]
 		]);
@@ -1443,11 +1467,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'qualifiers',
 			'en' => [
-				'name' => 'Qualifiers',
+				'name' => 'Qualifier|Qualifiers',
 				'description' => 'Character to be used to enclose fields in output file'
 			],
 			'ro' => [
-				'name' => 'Calificări',
+				'name' => 'Calificativ|Calificări',
 				'description' => 'Caractere pentru a fi utilizate pentru a le încadra câmpuri în fişierul de ieşire'
 			]
 		]);
@@ -1484,11 +1508,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'date_formats',
 			'en' => [
-				'name' => 'Date Formats',
+				'name' => 'Date Format|Date Formats',
 				'description' => 'Format of the date display'
 			],
 			'ro' => [
-				'name' => 'Formatele de Dată',
+				'name' => 'Format Dată|Formatele de Dată',
 				'description' => 'Formatul de afişare dată'
 			]
 		]);
@@ -1549,11 +1573,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'time_formats',
 			'en' => [
-				'name' => 'Time Formats',
+				'name' => 'Time Format|Time Formats',
 				'description' => 'Format of the time display'
 			],
 			'ro' => [
-				'name' => 'Formate de Timp',
+				'name' => 'Formatul Orei|Formate de Timp',
 				'description' => 'Formatul de afişare timp'
 			]
 		]);
@@ -1590,11 +1614,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'timezones',
 			'en' => [
-				'name' => 'Time Zones',
+				'name' => 'Time Zone|Time Zones',
 				'description' => 'A divisions of the earth\'s surface in which a standard time is kept'
 			],
 			'ro' => [
-				'name' => 'Fusuri Orare',
+				'name' => 'Fusul Orar|Fusuri Orare',
 				'description' => 'Unei diviziuni de pe suprafaţa Pământului în care se păstrează un timp standard'
 			]
 		]);
@@ -1687,11 +1711,11 @@ class CodesTableSeeder extends Seeder
 			'parent_code_id' => $types->id,
 			'code' => 'durations',
 			'en' => [
-				'name' => 'Durations',
+				'name' => 'Duration|Durations',
 				'description' => 'Amount of time a message is displayed'
 			],
 			'ro' => [
-				'name' => 'Duratele',
+				'name' => 'Durata|Duratele',
 				'description' => 'Cantitatea de timp este afişat un mesaj'
 			]
 		]);

@@ -170,7 +170,7 @@ class Code extends ModelWithLocales
 
 	public static function typeArrayWithDescriptions($type)
 	{
-		$records = self::select('id')
+		$records = self::select('id', 'code')
 			->ofType($type)
 			->locale(['name', 'description'])
 			->orderBy('name')
@@ -178,6 +178,7 @@ class Code extends ModelWithLocales
 		foreach ($records as $record) {
 			$array[$record->id] = [
 				'name' => $record->name,
+				'code' => $record->code,
 				'description' => $record->description
 			];
 		}

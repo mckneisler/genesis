@@ -75,14 +75,23 @@ class ArtistsController extends Controller
 
 	public function update(Artist $artist, ArtistRequest $request)
 	{
-		$artist->update($request->all());
-		flash()->success(
-			trans('phrase.successUpdate'),
-			trans('phrase.objectUpdated', [
-				'object' => choose(code('objects.artists')->name, 1),
-				'name' => $request->name
-			])
-		);
+		$artist->fill($request->all());
+		if ($artist->isDirty()) {
+			$artist->update();
+			flash()->success(
+				trans('phrase.successUpdate'),
+				trans('phrase.objectUpdated', [
+					'object' => choose(code('objects.artists')->name, 1),
+					'name' => $request->name
+				])
+			);
+		} else {
+			flash()->info(
+				trans('phrase.nothingSaved'),
+				trans('phrase.noChanges')
+			);
+		}
+
 		return redirect(session()->get('url.back', '/music/artists'));
 	}
 

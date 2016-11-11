@@ -118,3 +118,163 @@ font-awesome {
 .checkbox-label {
   font-weight: bold;
 }
+
+/**
+ * Bootstrap Select overrides
+ */
+
+.dropdown-menu > li > a {
+	white-space: normal;
+}
+
+/**
+ * Fonts
+ */
+
+.amber {
+	color:#ffc107 !important;
+}
+
+.black {
+	color:#000 !important;
+}
+
+.blue-grey {
+	color:#607d8b !important;
+}
+
+.blue {
+	color:#2196F3 !important;
+}
+
+.brown {
+	color:#795548 !important;
+}
+
+.cyan {
+	color:#0097a7 !important;
+}
+
+.dark-grey {
+	color:#3a3a3a !important;
+}
+
+.deep-orange {
+	color:#ff5722 !important;
+}
+
+.deep-purple {
+	color:#673ab7 !important;
+}
+
+.green {
+	color:#4CAF50 !important;
+}
+
+.grey {
+	color:#757575 !important;
+}
+
+.ice {
+	color:#639dde !important;
+}
+
+.indigo {
+	color:#1a237e !important;
+}
+
+.khaki {
+	color:#b4aa50 !important;
+}
+
+.light-blue {
+	color:#87CEEB !important;
+}
+
+.light-green {
+	color:#8bc34a !important;
+}
+
+.lime {
+	color:#cddc39 !important;
+}
+
+.neon-green {
+	color:#42ff91 !important;
+}
+
+.orange {
+	color:#ff9800 !important;
+}
+
+.pink {
+	color:#e91e63 !important;
+}
+
+.purple {
+	color:#9c27b0 !important;
+}
+
+.red {
+	color:#F44336 !important;
+}
+
+.teal {
+	color:#009688 !important;
+}
+
+.turquoise-island {
+	color:#00ffff !important;
+}
+
+.yellow {
+	color:#d2be0e !important;
+}
+
+/**
+ * Fonts
+ */
+
+.arial {
+	font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.century-gothic {
+	font-family: 'Century Gothic', sans-serif !important;
+}
+
+.comic-sans {
+	font-family: 'Comic Sans MS', sans-serif !important;
+}
+
+.copperplate {
+	font-family: 'Copperplate', 'Copperplate Gothic Light', sans-serif !important;
+}
+
+.georgia {
+	font-family: Georgia, serif !important;
+}
+
+.impact {
+	font-family: Impact, Charcoal, sans-serif; !important;
+}
+
+.lucida {
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif !important;
+}
+
+.palantino {
+	font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif !important;
+}
+
+.tahoma {
+	font-family: Tahoma, Geneva, sans-serif !important;
+}
+
+.times {
+	font-family: 'Times New Roman', Times, serif !important;
+}
+
+.verdana {
+	font-family: Verdana, Geneva, sans-serif !important;
+}

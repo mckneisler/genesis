@@ -62,3 +62,14 @@ function fixTopNav() {
 		topNav.removeClass('navbar-fixed-top');
 	}
 }
+
+function setNotSaved() {
+	document.getElementById("chgs_not_saved").value = 1;
+	window.onbeforeunload = function() {
+		return "Changes have been made and not saved.  Leaving this page will lose these changes.";
+	}
+}
+
+function overrideNotSaved() {
+	window.onbeforeunload = null;
+}

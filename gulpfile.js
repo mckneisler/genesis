@@ -21,7 +21,8 @@ elixir(function(mix) {
 		'libs/font-awesome.min.css',
 		'libs/sweetalert.css',
 		'libs/select2.min.css',
-		'libs/sqlsyntax.css'
+		'libs/sqlsyntax.css',
+		'libs/bootstrap-select.min.css'
 		//'app.css'
 	], null, 'resources/assets/css');
 
@@ -30,7 +31,8 @@ elixir(function(mix) {
 		'libs/bootstrap.min.js',
 		'libs/jquery.smartmenus.min.js',
 		'libs/jquery.smartmenus.bootstrap.min.js',
-		'libs/select2.min.js'
+		'libs/select2.min.js',
+		'libs/bootstrap-select.min.js'
 		//'app.js'
 	]);
 

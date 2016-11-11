@@ -64,75 +64,77 @@
 
 	@include('layouts.navbar')
 
-	@if (app()->isDownForMaintenance())
-		<div class="w3-container w3-section">
-			<div class="w3-container">
-				<div class="alert alert-danger fade in">
-					<strong>{{ trans('phrase.maintMode') }}</strong>:  {{ trans('phrase.maintDown') }}
+	<div id="main">
+		@if (app()->isDownForMaintenance())
+			<div class="w3-container w3-section">
+				<div class="w3-container">
+					<div class="alert alert-danger fade in">
+						<strong>{{ trans('phrase.maintMode') }}</strong>:  {{ trans('phrase.maintDown') }}
+					</div>
 				</div>
 			</div>
-		</div>
-	@endif
-
-	<div class="w3-container w3-section">
-		@include('layouts.flash')
-
-		@yield('content')
-	</div>
-
-    <!-- Javascript -->
-	<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
-	<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
-
-<!--
-	<script type="text/javascript" src="/full-dev-only/js/jquery-1.11.3.js"></script>
-	<script type="text/javascript" src="/full-dev-only/js/bootstrap.js"></script>
-	<script type="text/javascript" src="/full-dev-only/js/jquery.smartmenus.js"></script>
-	<script type="text/javascript" src="/full-dev-only/js/jquery.smartmenus.bootstrap.js"></script>
-	<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
--->
-	<script type="text/javascript">
-		function startTimeout() {
-			var timeout_id = setTimeout(function() {
-				startTimer({{ config('session.timeout_warning_duration') }}, 'seconds');
-				swal({
-					html: true,
-					title: "{{ trans('phrase.inactivity') }}",
-					text: "{{ trans('phrase.sessionTimeout') }} <span id=\"seconds\">" + timeFromSeconds({{ config('session.timeout_warning_duration') }}) + "</span> {{ strtolower(choose(code('objects.seconds')->name, 2)) }}.",
-					type: "warning",
-					showCancelButton: true,
-					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "{{ trans('phrase.stayOnPage') }}",
-					cancelButtonText: "{{ trans('phrase.logMeOut') }}",
-					closeOnConfirm: true,
-					closeOnCancel: true
-				},
-				function(isConfirm) {
-					if (isConfirm) {
-						$.ajax({
-							type: "GET",
-							url:'/'
-						});
-						clearTimeout(timeout_id);
-						startTimeout();
-					} else {
-						window.location.replace('/logout');
-					}
-				});
-			}, ({{ (config('session.lifetime') * 60000) - (config('session.timeout_warning_duration') * 1000) }}));
-		}
-
-		$('div.alert').not('.alert-danger').not('.alert-warning').delay({{ config('custom.message_timer') }}).slideUp(300);
-
-		<!-- Session Timeout -->
-		@if (Auth::check())
-			$(function() {
-				startTimeout();
-			});
 		@endif
-	</script>
-	@yield('scripts')
-	@yield('scriptsSelect')
+
+		<div class="w3-container w3-section">
+			@include('layouts.flash')
+
+			@yield('content')
+		</div>
+
+		<!-- Javascript -->
+		<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
+		<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
+
+	<!--
+		<script type="text/javascript" src="/full-dev-only/js/jquery-1.11.3.js"></script>
+		<script type="text/javascript" src="/full-dev-only/js/bootstrap.js"></script>
+		<script type="text/javascript" src="/full-dev-only/js/jquery.smartmenus.js"></script>
+		<script type="text/javascript" src="/full-dev-only/js/jquery.smartmenus.bootstrap.js"></script>
+		<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
+	-->
+		<script type="text/javascript">
+			function startTimeout() {
+				var timeout_id = setTimeout(function() {
+					startTimer({{ config('session.timeout_warning_duration') }}, 'seconds');
+					swal({
+						html: true,
+						title: "{{ trans('phrase.inactivity') }}",
+						text: "{{ trans('phrase.sessionTimeout') }} <span id=\"seconds\">" + timeFromSeconds({{ config('session.timeout_warning_duration') }}) + "</span> {{ strtolower(choose(code('objects.seconds')->name, 2)) }}.",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#DD6B55",
+						confirmButtonText: "{{ trans('phrase.stayOnPage') }}",
+						cancelButtonText: "{{ trans('phrase.logMeOut') }}",
+						closeOnConfirm: true,
+						closeOnCancel: true
+					},
+					function(isConfirm) {
+						if (isConfirm) {
+							$.ajax({
+								type: "GET",
+								url:'/'
+							});
+							clearTimeout(timeout_id);
+							startTimeout();
+						} else {
+							window.location.replace('/logout');
+						}
+					});
+				}, ({{ (config('session.lifetime') * 60000) - (config('session.timeout_warning_duration') * 1000) }}));
+			}
+
+			$('div.alert').not('.alert-danger').not('.alert-warning').delay({{ config('custom.message_timer') }}).slideUp(300);
+
+			<!-- Session Timeout -->
+			@if (Auth::check())
+				$(function() {
+					startTimeout();
+				});
+			@endif
+		</script>
+		@yield('scripts')
+		@yield('scriptsSelect')
+	</div>
 
 	<div class="w3-container w3-small w3-theme">
 		<div class="w3-row">

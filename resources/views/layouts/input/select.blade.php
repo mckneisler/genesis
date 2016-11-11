@@ -1,5 +1,6 @@
 <select
-	class="form-control"
+	class="selectpicker form-control"
+	data-container="main"
 	id="{{ $select['name'] }}"
 	name="{{ $select['name'] }}"
 	@if(array_has($select, 'onchange'))
@@ -17,7 +18,10 @@
 	@foreach($select['values'] as $id => $name)
 		<option
 			@if (is_array($name))
-				title="{!! $name['description'] !!}"
+				data-subtext="{!! $name['description'] !!}"
+				@if (isset($code) && ($code == 'font' || $code == 'theme'))
+					class="{!! $name['code'] !!}"
+				@endif
 			@endif
 			value="{{ $id }}"
 			@if (strval($id) === request()->{$select['name']}

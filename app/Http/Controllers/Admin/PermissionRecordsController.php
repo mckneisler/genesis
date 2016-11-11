@@ -110,12 +110,7 @@ class PermissionRecordsController extends Controller
 	{
 		$records = $permission->getRecords();
 
-		$roles = Code::select('id')
-			->ofType('roles')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
+		$roles = Code::typeArray('roles');
 		return view('admin.permissions.records.create', compact(
 			'permission',
 			'records',
@@ -146,12 +141,7 @@ class PermissionRecordsController extends Controller
 	{
 		$records = $permission->getRecords();
 
-		$roles = Code::select('id')
-			->ofType('roles')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
+		$roles = Code::typeArray('roles');
 		return view('admin.permissions.records.edit', compact(
 			'permission',
 			'permission_record',

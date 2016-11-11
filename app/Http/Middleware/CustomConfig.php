@@ -144,6 +144,7 @@ class CustomConfig
 			list($parent, $type) = code()->getParentFromPath($type_path);
 
 			$code =  Code::select(
+					'parent_code_id',
 					'id',
 					'code',
 					'values_code_id',

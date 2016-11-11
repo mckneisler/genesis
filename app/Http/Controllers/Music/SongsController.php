@@ -108,14 +108,23 @@ class SongsController extends Controller
 
 	public function update(Song $song, SongRequest $request)
 	{
-		$song->update($request->all());
-		flash()->success(
-			trans('phrase.successUpdate'),
-			trans('phrase.objectUpdated', [
-				'object' => trans_choice('object.song', 1),
-				'name' => $request->name
-			])
-		);
+		$song->fill($request->all());
+		if ($song->isDirty()) {
+			$song->update();
+			flash()->success(
+				trans('phrase.successUpdate'),
+				trans('phrase.objectUpdated', [
+					'object' => trans_choice('object.song', 1),
+					'name' => $request->name
+				])
+			);
+		} else {
+			flash()->info(
+				trans('phrase.nothingSaved'),
+				trans('phrase.noChanges')
+			);
+		}
+
 		return redirect(session()->get('url.back', '/music/songs'));
 	}
 

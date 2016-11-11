@@ -46,30 +46,13 @@ class PermissionsController extends Controller
 			->distinct()
 			->lists('object_id')
 			->all();
-		$objects = Code::select('code')
-			->ofType('objects')
-			->locale(['name'])
-			->whereIn('codes.id', $object_ids)
-			->orderBy('name')
-			->lists('name', 'code')
-			->toArray();
+		$objects = Code::typeArrayWithDescriptions('objects');
 		$action_ids = Permission::select('action_id')
 			->distinct()
 			->lists('action_id')
 			->all();
-		$actions = Code::select('code')
-			->ofType('actions')
-			->locale(['name'])
-			->whereIn('codes.id', $action_ids)
-			->orderBy('name')
-			->lists('name', 'code')
-			->toArray();
-		$roles = Code::select('code')
-			->ofType('roles')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'code')
-			->toArray();
+		$actions = Code::typeArrayWithDescriptions('actions');
+		$roles = Code::typeArrayWithDescriptions('roles');
 		$defaults = [];
 
 		return view('admin.permissions.index', compact(
@@ -86,24 +69,9 @@ class PermissionsController extends Controller
 	{
 		$type = code('objects.permissions');
 
-		$objects = Code::select('id')
-			->ofType('objects')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
-		$actions = Code::select('id')
-			->ofType('actions')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
-		$roles = Code::select('id')
-			->ofType('roles')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
+		$objects = Code::typeArrayWithDescriptions('objects');
+		$actions = Code::typeArrayWithDescriptions('actions');
+		$roles = Code::typeArray('roles');
 		return view('admin.permissions.create', compact(
 			'type',
 			'objects',
@@ -133,24 +101,9 @@ class PermissionsController extends Controller
 	{
 		$type = code('objects.permissions');
 
-		$objects = Code::select('id')
-			->ofType('objects')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
-		$actions = Code::select('id')
-			->ofType('actions')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
-		$roles = Code::select('id')
-			->ofType('roles')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
+		$objects = Code::typeArrayWithDescriptions('objects');
+		$actions = Code::typeArrayWithDescriptions('actions');
+		$roles = Code::typeArray('roles');
 		return view('admin.permissions.edit', compact(
 			'permission',
 			'type',

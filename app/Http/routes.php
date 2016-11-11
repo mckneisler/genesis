@@ -61,10 +61,7 @@ Route::resource('/music/songs', 'Music\SongsController', ['except' => ['show', '
 /**
  * Model bindings for models dependent on locale can be found in the CustomConfig middleware
  */
-Route::resource('admin.codes', 'Admin\CodesController', [
-	'parameters' => [
-	    'admin' => 'types'
-	],
+Route::resource('/admin/{types}/codes', 'Admin\CodesController', [
 	'except' => [
 	    'show',
 		'destroy'

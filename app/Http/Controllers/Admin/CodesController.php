@@ -113,12 +113,7 @@ class CodesController extends Controller
 	{
 		list($parent, $type) = code()->getParentFromPath($type_path);
 
-		$values = Code::select('id')
-			->ofType('types')
-			->locale(['name'])
-			->orderBy('name')
-			->lists('name', 'id')
-			->toArray();
+		$values = Code::typeArrayWithDescriptions('types');
 
 		return view('admin.codes.edit', compact(
 			'type',
@@ -130,10 +125,16 @@ class CodesController extends Controller
 
 	public function update($type_path, Code $code, CodeRequest $request)
 	{
-		$type_path = Code::getPathFromId($request->parent_code_id);
+		$data_saved = false;
 
+		$type_path = Code::getPathFromId($request->parent_code_id);
 		$parent = code($request->input('parent_code_id'));
-		$code->update($request->all());
+
+		$code->fill($request->all());
+		if ($code->isDirty()) {
+			$data_saved = true;
+			$code->update();
+		}
 
 		$locale_id = code('locales.' . App::getLocale())->id;
 		$locale = CodeLocale::where('model_id', $code->id)
@@ -145,34 +146,46 @@ class CodesController extends Controller
 			$locale->locale_id = $locale_id;
 			$locale->save();
 		} else {
-			$locale->update($request->all());
+			$locale->fill($request->all());
+			if ($locale->isDirty()) {
+				$data_saved = true;
+				$locale->update();
+			}
 		}
 		if ($request->input('disabled')) {
 			if (is_null($code->deleted_at)) {
 				$code->delete();
+				$data_saved = true;
 				$title = 'successDisable';
 				$message = 'objectDisabled';
-			} else {
-				$title = 'successUpdate';
-				$message = 'objectUpdated';
 			}
 		} else {
-			if (is_null($code->deleted_at)) {
-				$title = 'successUpdate';
-				$message = 'objectUpdated';
-			} else {
+			if ( ! is_null($code->deleted_at)) {
+				$data_saved = true;
 				$code->restore();
 				$title = 'successRestore';
 				$message = 'objectRestored';
 			}
 		}
-		flash()->success(
-			trans('phrase.' . $title),
-			trans('phrase.' . $message, [
-				'object' => choose($parent->name, 1),
-				'name' => choose($request->name, 1)
-			])
-		);
+
+		if ($data_saved) {
+			if ( ! isset($title) || ! isset($message)) {
+				$title = 'successUpdate';
+				$message = 'objectUpdated';
+			}
+			flash()->success(
+				trans('phrase.' . $title),
+				trans('phrase.' . $message, [
+					'object' => choose($parent->name, 1),
+					'name' => choose($request->name, 1)
+				])
+			);
+		} else {
+			flash()->info(
+				trans('phrase.nothingSaved'),
+				trans('phrase.noChanges')
+			);
+		}
 
 		return redirect(session()->get('url.back', '/admin/' . $type_path . '/codes'));
 	}

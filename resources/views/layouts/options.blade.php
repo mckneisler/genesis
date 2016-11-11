@@ -6,6 +6,7 @@
 @else
 	@include('layouts.input', [
 		'name' => codePath($option->id) . '_value_id',
+		'code' => $option->code,
 		'type' => 'select',
 		'label' => $option->name,
 		'values' => ${code($option->values_code_id)->code},

@@ -17,6 +17,7 @@
 					@include('layouts.input.select', [
 						'select' => compact(
 							'name',
+							'code',
 							'values',
 							'nullText',
 							'value',
