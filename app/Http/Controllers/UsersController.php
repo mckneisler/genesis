@@ -146,7 +146,6 @@ class UsersController extends Controller
 
 	public function update(User $user, UserRequest $request)
 	{
-dump($user);
 		$data_saved = false;
 
 		$type = code('objects.users');
@@ -158,7 +157,6 @@ dump($user);
 			$values['password'] = bcrypt($values['password']);
 		}
 		$user->fill($values);
-dump($user->getDirty());
 		if ($user->isDirty()) {
 			$data_saved = true;
 			$user->update();
@@ -166,10 +164,15 @@ dump($user->getDirty());
 
 		if (in_array('admin', request()->segments())) {
 			if ($request->has('role_list')) {
-dump($request->input('role_list'));
-				$user->roles()->sync($request->input('role_list'));
+				if (implode(',', $request->input('role_list')) != implode(',', $user->roles->pluck('id')->toArray())) {
+					$data_saved = true;
+					$user->roles()->sync($request->input('role_list'));
+				}
 			} else {
-				$user->roles()->sync([]);
+				if (count($user->roles)) {
+					$data_saved = true;
+					$user->roles()->sync([]);
+				}
 			}
 		}
 		if ($request->input('disabled')) {
@@ -181,13 +184,13 @@ dump($request->input('role_list'));
 			}
 		} else {
 			if ( ! is_null($user->deleted_at)) {
+				$data_saved = true;
 				$user->restore();
 				$title = 'successRestore';
 				$message = 'objectRestored';
 			}
 		}
 
-dd($data_saved);
 		if ($data_saved) {
 			if ( ! isset($title) || ! isset($message)) {
 				$title = 'successUpdate';

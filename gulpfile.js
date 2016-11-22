@@ -31,8 +31,8 @@ elixir(function(mix) {
 		'libs/bootstrap.min.js',
 		'libs/jquery.smartmenus.min.js',
 		'libs/jquery.smartmenus.bootstrap.min.js',
-		'libs/select2.min.js',
-		'libs/bootstrap-select.min.js'
+		'libs/select2.min.js'
+		//'libs/bootstrap-select.min.js'
 		//'app.js'
 	]);
 

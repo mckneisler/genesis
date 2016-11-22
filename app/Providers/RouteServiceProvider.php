@@ -55,6 +55,7 @@ class RouteServiceProvider extends ServiceProvider
 		$router->bind('users', function ($value) {
 			return User::withTrashed()
 				->where('id', $value)
+				->with('roles')
 				->first();
 		});
     }

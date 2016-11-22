@@ -64,7 +64,7 @@
 
 	@include('layouts.navbar')
 
-	<div id="main">
+	<div id="main" class="main">
 		@if (app()->isDownForMaintenance())
 			<div class="w3-container w3-section">
 				<div class="w3-container">
@@ -84,6 +84,8 @@
 		<!-- Javascript -->
 		<script type="text/javascript" src="{{ elixir('js/all.js') }}"></script>
 		<script type="text/javascript" src="/full-dev-only/js/app.js"></script>
+
+		<script type="text/javascript" src="/full-dev-only/js/bootstrap-select.js"></script>
 
 	<!--
 		<script type="text/javascript" src="/full-dev-only/js/jquery-1.11.3.js"></script>
@@ -136,7 +138,7 @@
 		@yield('scriptsSelect')
 	</div>
 
-	<div class="w3-container w3-small w3-theme">
+	<div id="footer" class="w3-container w3-small w3-theme">
 		<div class="w3-row">
 			<!-- Left -->
 			<div class="w3-third w3-hide-small">

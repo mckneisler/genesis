@@ -1,6 +1,6 @@
 <select
 	class="selectpicker form-control"
-	data-container="main"
+	data-container=".main"
 	id="{{ $select['name'] }}"
 	name="{{ $select['name'] }}"
 	@if(array_has($select, 'onchange'))
@@ -48,3 +48,4 @@
 		</script>
 	@endsection
 @endif
+<!--<button type="button" class="btn btn-default" onclick="getInfo()">X</button>-->
